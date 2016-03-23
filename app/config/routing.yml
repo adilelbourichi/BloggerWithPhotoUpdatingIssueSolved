@@ -1,8 +1,3 @@
-photo_blog:
-    resource: "@PhotoBlogBundle/Controller/"
-    type:     annotation
-    prefix:   /
-
 login_register:
     resource: "@LoginRegisterBundle/Controller/"
     type:     annotation

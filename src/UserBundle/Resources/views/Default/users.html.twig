@@ -11,39 +11,23 @@
  <div class="container">
    <div class="row">
        <div class="col-md-8">
-           <h1>User list</h1>
+             <h1>Registered Users</h1>
+             {% for user in users %}
+               <hr>
+               <div class="row">
+                <div class="col-md-4">
+                    <img src="../uploads/pics/{{ user.profilePic  }}" href="/profiles/{{ user.firstName }}.{{ user.lastName }}"
+                         height="50" width="50"/>
+                </div> 
+                <div class="col-md-8">
+                    {{ user.firstName|capitalize }} {{ user.lastName|capitalize }}
+                    <br>
+                    {{ user.city|capitalize }}, {{ user.country|capitalize }}.
+                    <br>
+                </div>
 
-           <table>
-               <thead>
-               <tr>
-                   <th>Firstname</th>
-                   <th>Lastname</th>
-                   <th>Email</th>
-                   <th>City</th>
-                   <th>Country</th>
-                   <th>Actions</th>
-               </tr>
-               </thead>
-               <tbody>
-               {% for user in users %}
-                   <tr>
-                       <td>{{ user.firstName }}</td>
-                       <td>{{ user.lastName }}</td>
-                       <td>{{ user.email }}</td>
-                       <td>{{ user.city }}</td>
-                       <td>{{ user.country }}</td>
-                       <td>
-                           <ul>
-                               <li>
-                                   <a href="/profiles/{{ user.firstName }}.{{ user.lastName }}">Profile</a>
-                               </li>
-
-                           </ul>
-                       </td>
-                   </tr>
-               {% endfor %}
-               </tbody>
-           </table>
+               </div>
+             {% endfor %}
        </div>
        <!-- Blog Sidebar Widgets Column -->
        <div class="col-md-4">
