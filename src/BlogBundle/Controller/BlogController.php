@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\MimeType\FileinfoMimeTypeGuesser;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 /**
  * Blog controller.
@@ -32,8 +33,12 @@ class BlogController extends Controller
 
         $blogs = $em->getRepository('BlogBundle:Blog')->findAll();
 
+        $categories = $em->getRepository('CategoryBundle:Category')->findBy(array(), array('id'=>'asc'));
+
+
         return $this->render('blog/index.html.twig', array(
             'blogs' => $blogs,
+            'categories' => $categories
         ));
     }
 
@@ -45,6 +50,8 @@ class BlogController extends Controller
      */
     public function newAction(Request $request)
     {
+        $categories = $this->getDoctrine()->getRepository('CategoryBundle:Category')->findBy(array(), array('id'=>'asc'));
+
         $blog = new Blog();
         $form = $this->createForm('BlogBundle\Form\BlogType', $blog);
         $form->handleRequest($request);
@@ -77,6 +84,7 @@ class BlogController extends Controller
         return $this->render('blog/new.html.twig', array(
             'blog' => $blog,
             'form' => $form->createView(),
+            'categories' => $categories
         ));
     }
 
@@ -90,9 +98,12 @@ class BlogController extends Controller
     {
         $deleteForm = $this->createDeleteForm($blog);
 
+        $categories = $this->getDoctrine()->getRepository('CategoryBundle:Category')->findBy(array(), array('id'=>'asc'));
+
         return $this->render('blog/show.html.twig', array(
             'blog' => $blog,
             'delete_form' => $deleteForm->createView(),
+            'categories' => $categories
         ));
     }
 
@@ -104,6 +115,8 @@ class BlogController extends Controller
      */
     public function editAction(Request $request, Blog $blog)
     {
+        $categories = $this->getDoctrine()->getRepository('CategoryBundle:Category')->findBy(array(), array('id'=>'asc'));
+
         $deleteForm = $this->createDeleteForm($blog);
         $editForm = $this->createForm('BlogBundle\Form\BlogType', $blog);
         $editForm->handleRequest($request);
@@ -135,6 +148,7 @@ class BlogController extends Controller
             'blog' => $blog,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'categories' => $categories
         ));
     }
 

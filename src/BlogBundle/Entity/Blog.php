@@ -31,6 +31,14 @@ class Blog
     /**
      * @var string
      *
+     * @ORM\Column(name="category", type="string", length=255)
+     */
+
+    private $category;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="username", type="string", length=255)
      */
     private $username;
@@ -185,6 +193,14 @@ class Blog
     public function getOptionalPhoto()
     {
         return $this->optionalPhoto;
+    }
+
+    public function setCategory($category){
+        $this->category=$category;
+    }
+
+    public function getCategory(){
+        return $this->category;
     }
 }
 

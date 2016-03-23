@@ -24,6 +24,64 @@
           </li>
         </ul>
        </div>
+          <!-- Blog Sidebar Widgets Column -->
+          <div class="col-md-4">
+              {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                  <!-- Logout Well -->
+                  <div class="well">
+                      <h4>Have something to write?</h4>
+                      <a class="link" href="{{ path('blog_new') }}">Create new entry</a>
+                      <hr>
+                      <h4>Logout</h4>
+                      <a class="link" href="{{ path('logout') }}">Logout</a>
+                  </div>
+              {% else %}
+                  <!-- Login and Register Well -->
+                  <div class="well">
+                      <h4>Register</h4>
+                      <a class="link" href="{{ path('user_registration') }}">Register</a>
+                      <hr>
+                      <h4>Login</h4>
+                      <a class="link" href="{{ path('login') }}">Login</a>
+                  </div>
+
+              {% endif %}
+
+              <!-- Blog Categories Well -->
+              <div class="well">
+                  <h4>Blog Categories</h4>
+                  {% for category in categories %}
+                      <div class="row">
+                          <div class="col-md-6">
+                              {% if category.id % 2 == 1 %}
+                                  <a href="/categories/{{ category.name }}"> {{ category.name}}</a>
+                              {% endif %}
+                          </div>
+                          <div class="col-md-6">
+                              {% if category.id % 2 == 0 %}
+                                  <a href="/categories/{{ category.name }}"> {{ category.name}}</a>
+                              {% endif %}
+                          </div>
+                      </div>
+                  {% endfor %}
+                  <!-- /.row -->
+              </div>
+
+              <!-- Blog Search Well -->
+              <div class="well">
+                  <h4>Blog Search</h4>
+                  <div class="input-group">
+                      <input type="text" class="form-control">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+                  </div>
+                  <!-- /.input-group -->
+              </div>
+
+          </div>
       </div>
   </div>
 {% endblock %}

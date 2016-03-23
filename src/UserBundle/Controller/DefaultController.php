@@ -16,6 +16,8 @@ class DefaultController extends Controller
      */
     public function indexAction($firstName, $lastName)
     {
+        $categories = $this->getDoctrine()->getRepository('CategoryBundle:Category')->findBy(array(), array('id'=>'asc'));
+
         $username = $firstName.$lastName;
         $repository = $this->getDoctrine()->getRepository('UserBundle:User');
         $query = $repository->createQueryBuilder('u')
@@ -27,7 +29,10 @@ class DefaultController extends Controller
         $profilePic=$my_user[0]->getProfilePic();
         return $this->render('UserBundle:Default:index.html.twig',
             array(
-                'firstName'=>$firstName, 'lastName'=>$lastName, 'profilePic'=>$profilePic
+                'firstName'=>$firstName,
+                'lastName'=>$lastName,
+                'profilePic'=>$profilePic,
+                'categories' => $categories
             ));
     }
 
@@ -35,6 +40,8 @@ class DefaultController extends Controller
      * @Route("/profile/{username}", name="show_profile")
      */
     public function profileAction($username){
+        $categories = $this->getDoctrine()->getRepository('CategoryBundle:Category')->findBy(array(), array('id'=>'asc'));
+
         $repository = $this->getDoctrine()->getRepository('UserBundle:User');
         $query = $repository->createQueryBuilder('u')
             ->where('u.username=:username')
@@ -47,7 +54,10 @@ class DefaultController extends Controller
 
         return $this->render('UserBundle:Default:index.html.twig',
             array(
-                'firstName'=>$firstName, 'lastName'=>$lastName, 'profilePic'=>$profilePic
+                'firstName'=>$firstName,
+                'lastName'=>$lastName,
+                'profilePic'=>$profilePic,
+                'categories'=>$categories
             ));
     }
 
@@ -55,6 +65,8 @@ class DefaultController extends Controller
      * @Route("/editprofile/{username}", name="edit_profile")
      */
     public function editProfileAction(Request $request, $username){
+        $categories = $this->getDoctrine()->getRepository('CategoryBundle:Category')->findBy(array(), array('id'=>'asc'));
+
         $repository = $this->getDoctrine()->getRepository('UserBundle:User');
         $query = $repository->createQueryBuilder('u')
             ->where('u.username=:username')
@@ -100,6 +112,7 @@ class DefaultController extends Controller
         return $this->render('UserBundle:Default:editprofile.html.twig', array(
             'user' => $user,
             'edit_form' => $editForm->createView(),
+            'categories' => $categories
         ));
     }
 
@@ -107,6 +120,8 @@ class DefaultController extends Controller
      * @Route("/changeprofilepicture/{username}", name="change_profile_picture")
      */
     public function changeProfilePictureAction(Request $request, $username){
+        $categories = $this->getDoctrine()->getRepository('CategoryBundle:Category')->findBy(array(), array('id'=>'asc'));
+
         $repository = $this->getDoctrine()->getRepository('UserBundle:User');
         $query = $repository->createQueryBuilder('u')
             ->where('u.username=:username')
@@ -152,6 +167,7 @@ class DefaultController extends Controller
         return $this->render('UserBundle:Default:editprofile.html.twig', array(
             'user' => $user,
             'edit_form' => $editForm->createView(),
+            'categories' => $categories
         ));
     }
 }

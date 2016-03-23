@@ -17,6 +17,8 @@ class DefaultController extends Controller
      */
     public function indexAction($username)
     {
+        $categories = $this->getDoctrine()->getRepository('CategoryBundle:Category')->findBy(array(), array('id'=>'asc'));
+
         /* search the blog database for blogs where username == firstName.lastName and print the list*/
         $repository = $this->getDoctrine()->getRepository('BlogBundle:Blog');
         $query = $repository->createQueryBuilder('b')
@@ -39,7 +41,11 @@ class DefaultController extends Controller
 
         return $this->render('BlogBundle:Default:index.html.twig',
             array(
-                'firstName' => $firstName, 'lastName' => $lastName, 'my_blog' => $my_blog, 'my_user'=>$my_user
+                'firstName' => $firstName,
+                'lastName' => $lastName,
+                'my_blog' => $my_blog,
+                'my_user'=>$my_user,
+                'categories' => $categories
             ));
     }
 
@@ -48,6 +54,8 @@ class DefaultController extends Controller
      */
     public function showBlogAction($title)
     {
+        $categories = $this->getDoctrine()->getRepository('CategoryBundle:Category')->findBy(array(), array('id'=>'asc'));
+
         $repository = $this->getDoctrine()->getRepository('BlogBundle:Blog');
         $query = $repository->createQueryBuilder('b')
             ->where('b.title = :title')
@@ -69,7 +77,11 @@ class DefaultController extends Controller
 
         return $this->render('BlogBundle:Default:blog.html.twig',
             array(
-                'firstName' => $firstName, 'lastName' => $lastName, 'my_blog' => $my_blog, 'my_user'=>$my_user
+                'firstName' => $firstName,
+                'lastName' => $lastName,
+                'my_blog' => $my_blog,
+                'my_user'=>$my_user,
+                'categories'=>$categories
             ));
     }
 
@@ -77,6 +89,8 @@ class DefaultController extends Controller
      * @Route("/{title}/edit")
      */
     public function editBlogAction(Request $request, $title){
+        $categories = $this->getDoctrine()->getRepository('CategoryBundle:Category')->findBy(array(), array('id'=>'asc'));
+
         $repository = $this->getDoctrine()->getRepository('BlogBundle:Blog');
         $query = $repository->createQueryBuilder('b')
             ->where('b.title = :title')
@@ -118,6 +132,7 @@ class DefaultController extends Controller
                 'my_blog' => $my_blog,
                 'edit_form' => $editForm->createView(),
                 'delete_form' => $deleteForm->createView(),
+                'categories' => $categories
             ));
     }
 

@@ -25,9 +25,12 @@ class DefaultController extends Controller
 
         $blogs = $em->getRepository('BlogBundle:Blog')->findBy(array(), array('publishedDate'=>'desc'));
 
+        $categories = $em->getRepository('CategoryBundle:Category')->findBy(array(), array('id'=>'asc'));
+
         return $this->render('default/index.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
-            'blogs'=>$blogs
+            'blogs'=>$blogs,
+            'categories'=>$categories
         ]);
     }
 
@@ -36,6 +39,8 @@ class DefaultController extends Controller
  */
     public function loginAction(Request $request)
     {
+        $categories = $this->getDoctrine()->getRepository('CategoryBundle:Category')->findBy(array(), array('id'=>'asc'));
+
         $authenticationUtils = $this->get('security.authentication_utils');
 
         // get the login error if there is one
@@ -50,6 +55,7 @@ class DefaultController extends Controller
                 // last username entered by the user
                 'last_username' => $lastUsername,
                 'error'         => $error,
+                'categories' => $categories
             )
         );
     }

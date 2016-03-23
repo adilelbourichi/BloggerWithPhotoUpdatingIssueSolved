@@ -26,4 +26,13 @@ security:
             provider:
                our_db_provider
 
+    access_control:
+       - { path: ^/user/list, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+       - { path: ^/blog/new, roles: ROLE_USER }
+       - { path: ^/user, roles: ROLE_ADMIN }
+       - { path: ^/blog, roles: ROLE_ADMIN }
+       - { path:^/category, roles: ROLE_ADMIN }
+
+
+
 
